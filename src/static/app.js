@@ -27,6 +27,37 @@ document.addEventListener("DOMContentLoaded", () => {
           <p><strong>Availability:</strong> ${spotsLeft} spots left</p>
         `;
 
+        // Participants section
+        let participantsList = activityCard.querySelector('.participants__list');
+        if (!participantsList) {
+          // If card is built purely in JS, create the section:
+          const participantsSection = document.createElement('div');
+          participantsSection.className = 'participants';
+          const pTitle = document.createElement('h4');
+          pTitle.className = 'participants__title';
+          pTitle.textContent = 'Participants';
+          participantsList = document.createElement('ul');
+          participantsList.className = 'participants__list';
+          participantsSection.appendChild(pTitle);
+          participantsSection.appendChild(participantsList);
+          activityCard.appendChild(participantsSection);
+        }
+
+        // Populate participants list
+        participantsList.innerHTML = '';
+        if (details.participants && details.participants.length > 0) {
+          details.participants.forEach(email => {
+            const li = document.createElement('li');
+            li.textContent = email;
+            participantsList.appendChild(li);
+          });
+        } else {
+          const li = document.createElement('li');
+          li.textContent = 'No participants yet';
+          li.className = 'participants__empty';
+          participantsList.appendChild(li);
+        }
+
         activitiesList.appendChild(activityCard);
 
         // Add option to select dropdown
@@ -62,6 +93,24 @@ document.addEventListener("DOMContentLoaded", () => {
         messageDiv.textContent = result.message;
         messageDiv.className = "success";
         signupForm.reset();
+
+        // Append the new participant to the list
+        const activityCardElement = Array.from(activitiesList.children).find(card => {
+          const title = card.querySelector('h4');
+          return title && title.textContent === activity;
+        });
+
+        if (activityCardElement) {
+          const participantsList = activityCardElement.querySelector('.participants__list');
+          if (participantsList) {
+            // remove "No participants yet" placeholder if present
+            const empty = participantsList.querySelector('.participants__empty');
+            if (empty) empty.remove();
+            const li = document.createElement('li');
+            li.textContent = email;
+            participantsList.appendChild(li);
+          }
+        }
       } else {
         messageDiv.textContent = result.detail || "An error occurred";
         messageDiv.className = "error";

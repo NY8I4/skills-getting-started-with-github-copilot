@@ -46,5 +46,26 @@
     </footer>
 
     <script src="app.js"></script>
+
+    <!-- Activity card template (for JS to clone) -->
+    <template id="activity-card-template">
+      <div class="activity-card">
+        <div class="activity-card__info">
+          <h4 class="activity-card__title"></h4>
+          <p class="activity-card__description"></p>
+          <p class="activity-card__schedule"></p>
+        </div>
+        <!-- Participants section (added) -->
+        <div class="participants">
+          <h4 class="participants__title">Participants</h4>
+          <ul class="participants__list">
+            <!-- JS will populate <li> items here -->
+          </ul>
+        </div>
+        <form class="signup-form">
+          <button type="submit" class="signup-form__button">Sign Up</button>
+        </form>
+      </div>
+    </template>
   </body>
 </html>
